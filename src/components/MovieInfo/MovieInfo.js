@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 
-import axios from "axios";
-
-import { APIKEY, APILINK } from "./../../config";
+// import axios from "axios";
+// import { APIKEY, APILINK } from "./../../config";
 
 import MovieMasterInfo from "./../MovieMasterInfo/MovieMasterInfo";
 import Actors from "./../Actors/Actors";
@@ -18,23 +17,40 @@ class MovieInfo extends Component {
 
     getMovieInfo = () => {
         const movieId = this.props.match.params.movieId;
-        axios.get(`${APILINK}movie/${movieId}?api_key=${APIKEY}&language=en-US`)
+        fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=bf625fc6cd2fdd129acfcec39e2c3fa0&language=en-US`)
+            .then(response => response.json())
             .then(response => {
                 this.setState({
-                    movieInfo: response.data
+                    movieInfo: response
                 });
-            })
+            });
+
+        // axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=bf625fc6cd2fdd129acfcec39e2c3fa0&language=en-US`)
+        //     .then(response => {
+        //         this.setState({
+        //             movieInfo: response.data
+        //         });
+        //     });
     }
 
 
     getMovieActors = () => {
         const movieId = this.props.match.params.movieId;
-        axios.get(`${APILINK}movie/${movieId}/credits?api_key=${APIKEY}`)
+
+        fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=bf625fc6cd2fdd129acfcec39e2c3fa0`)
+            .then(response => response.json())
             .then(response => {
                 this.setState({
-                    actors: response.data.cast
+                    actors: response.cast
                 });
             });
+
+        // axios.get(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=bf625fc6cd2fdd129acfcec39e2c3fa0`)
+        //     .then(response => {
+        //         this.setState({
+        //             actors: response.data.cast
+        //         });
+        //     });
     }
 
     componentDidMount() {
