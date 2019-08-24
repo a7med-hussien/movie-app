@@ -4,6 +4,18 @@ import { Link } from "react-router-dom";
 import "./MovieMasterInfo.css";
 import Loader from "../Loader/Loader";
 
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+});
+
+function timeConvert(num) {
+    var hours = Math.floor(num / 60);
+    var minutes = num % 60;
+    return hours + "h " + minutes + "m";
+}
+
 function MovieMasterInfo(props) {
     return (
         props.info
@@ -34,26 +46,30 @@ function MovieMasterInfo(props) {
                             <h3>PLOT</h3>
                             <p>{props.info.overview}</p>
                             <h3>IMDB RATING</h3>
-                            <div className="rmdb-rating"><meter min="0" max="100" optimum="100" low="40" high="70"
-                                    value="64"></meter>
-                                <p className="rmdb-score">6.4</p>
+                            <div className="rmdb-rating">
+                                <meter min="0" max="100" optimum="100" low="40" high="70" value={props.info.vote_average * 10}></meter>
+                                <p className="rmdb-score">{props.info.vote_average}</p>
                             </div>
                             <h3>DIRECTOR</h3>
                             <p className="rmdb-director">David Lowery</p>
-                        </div><span aria-hidden="true" className="fa fa-film fa-5x fa-film"></span>
+                        </div>
+                        <span aria-hidden="true" className="fa fa-film fa-5x fa-film"></span>
                     </div>
                 </div>
                 <div className="rmdb-movieinfobar">
                     <div className="rmdb-movieinfobar-content">
-                        <div className="rmdb-movieinfobar-content-col"><span aria-hidden="true"
-                                className="fa fa-clock-o fa-2x fa-time"></span><span className="rmdb-movieinfobar-info">Running
-                                time: 1h 33m</span></div>
-                        <div className="rmdb-movieinfobar-content-col"><span aria-hidden="true"
-                                className="fa fa-money fa-2x fa-budget"></span><span className="rmdb-movieinfobar-info">Budget:
-                                $0</span></div>
-                        <div className="rmdb-movieinfobar-content-col"><span aria-hidden="true"
-                                className="fa fa-ticket fa-2x fa-revenue"></span><span
-                                className="rmdb-movieinfobar-info">Revenue: $11,277,120</span></div>
+                        <div className="rmdb-movieinfobar-content-col">
+                            <span aria-hidden="true" className="fa fa-clock-o fa-2x fa-time"></span>
+                            <span className="rmdb-movieinfobar-info">Running time: {timeConvert(props.info.runtime)}</span>
+                        </div>
+                        <div className="rmdb-movieinfobar-content-col">
+                            <span aria-hidden="true" className="fa fa-money fa-2x fa-budget"></span>
+                            <span className="rmdb-movieinfobar-info">Budget: {formatter.format(props.info.budget)}</span>
+                        </div>
+                        <div className="rmdb-movieinfobar-content-col">
+                            <span aria-hidden="true" className="fa fa-ticket fa-2x fa-revenue"></span>
+                            <span className="rmdb-movieinfobar-info">Revenue: {formatter.format(props.info.revenue)}</span>
+                        </div>
                     </div>
                 </div>
             </div>
